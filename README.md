@@ -49,7 +49,9 @@ Let's say we want to upload your Django project, then you just need to run the w
 - Create another folder where you want to create the React project.
 
 - Open the terminal inside this new folder and type:
-```python -m dj-rc```
+```
+python -m dj-rc
+```
 
   **By default it will scope for local npm libraries and use npm as package manager.**
 
