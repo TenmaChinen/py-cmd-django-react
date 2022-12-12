@@ -42,13 +42,16 @@ Let's say we want to upload your Django project, then you just need to run the w
 - Create a new system variable from envirorment variables named : PYTHONPATH
 
 - Add the directory to PYTHONPATH to allow python have access to the module globally by using:
-  `python -m module_name`
+  ```
+  python -m module_name
+  ```
 
 - Create another folder where you want to create the React project.
 
-- Open the terminal inside this new folder and type: `python -m dj-rc`
+- Open the terminal inside this new folder and type:
+```python -m dj-rc```
 
-**By default it will scope for global npm libraries and use npm as package manager.**
+  **By default it will scope for local npm libraries and use npm as package manager.**
 
 - Wait until everything is set and a browser window will be open.
 

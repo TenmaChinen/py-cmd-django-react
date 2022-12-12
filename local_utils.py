@@ -1,8 +1,8 @@
 
 def get_args_dict(l_args):
 
-    d_params = {'scope':'global', 'pkg_mgr':'pnp'}
-    # d_params = {'scope':'global', 'pkg_mgr':'pnpm'}
+    # d_params = {'scope':'global', 'pkg_mgr':'pnp'}
+    d_params = {'scope':'global', 'pkg_mgr':'pnpm'}
     d_options = {'scope':['global','local'], 'pkg_mgr':['npm','pnpm']}
 
     if len(l_args) == 1:
