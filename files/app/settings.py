@@ -38,7 +38,7 @@ if DEBUG:
     MIDDLEWARE.insert(2,'corsheaders.middleware.CorsMiddleware')
 
     # CORS_ORIGIN_ALLOW_ALL = True
-    CORS_ALLOWED_ORIGINS = ['http://192.168.1.39:8080', ]
+    CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:8080', ]
     CORS_ALLOW_CREDENTIALS = True 
     CORS_EXPOSE_HEADERS = ['X-CSRFToken', ]
 
