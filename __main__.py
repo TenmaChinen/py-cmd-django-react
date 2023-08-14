@@ -1,8 +1,9 @@
-import os, sys, shutil, json, webbrowser
+from . import local_utils as utils
+import os, sys, json, webbrowser
+from subprocess import Popen
 from pathlib import Path
-from . import local_utils
 
-d_params = local_utils.get_args_dict(l_args=sys.argv)
+d_params = utils.get_args_dict(l_args=sys.argv)
 
 if d_params is None:
     sys.exit()
@@ -15,37 +16,13 @@ DST_DIR = Path(os.getcwd()).resolve()
 #######################
 
 os.system('django-admin startproject app .')
+os.system('python manage.py startapp api')
 os.system('python manage.py startapp frontend')
+os.system('python manage.py migrate')
 
-# Add [ frontend ] app to Django [ settings.py ]
-
-with open(DST_DIR / 'app' / 'settings.py' , 'r+' ) as file:
-  l_lines = file.readlines()
-  for idx,line in enumerate(l_lines):
-    if line.__contains__('django.contrib.staticfiles'):
-      l_lines.insert(idx+1, '    \'frontend\',\n')
-      file.seek(0)
-      file.write(''.join(l_lines))
-      break
-
-# Copy urls.py from [ app ]
-src_file_path = SRC_DIR / 'files' / 'urls_a.py'
-dst_file_path = DST_DIR/ 'app' / 'urls.py'
-shutil.copy(src=src_file_path, dst=dst_file_path)
-
-# Copy urls.py from [ frontend ]
-src_file_path = SRC_DIR / 'files' / 'urls_f.py'
-dst_file_path = DST_DIR/ 'frontend' / 'urls.py'
-shutil.copy(src=src_file_path, dst=dst_file_path)
-
-# Copy needed files
-for file_name in ['.babelrc','webpack.config.js', 'views.py', 'src', 'static', 'templates']:
-    src_file_path = SRC_DIR / 'files' / file_name
-    dst_file_path = DST_DIR / 'frontend' / file_name
-    if os.path.isfile(src_file_path):
-        shutil.copy(src=src_file_path, dst=dst_file_path)
-    elif os.path.isdir(src_file_path):
-        shutil.copytree(src=src_file_path, dst=dst_file_path)
+# copy [ app ] [ frontend ] [ api ] files
+utils.copy_project_files(src_dir=SRC_DIR, dst_dir=DST_DIR)
+utils.settings_modificator(settings_path=DST_DIR / 'app' / 'settings.py')
 
 #######################
 ####   R E A C T   ####
@@ -66,7 +43,8 @@ with open('package.json','r+') as file:
     data = json.load(file)
     # dev just allows to see changes on manual refresh
     data['scripts'] = {
-        'start': 'webpack-dev-server --config webpack.config.js',
+        'dev': 'webpack-dev-server --config webpack.config.js --host 127.0.0.1 --port 8080',
+        # 'dev': 'webpack-dev-server --config webpack.config.js',
         'build': 'webpack --mode production',
         }
     file.seek(0)
@@ -86,5 +64,15 @@ else:
     else:
         os.system(f'pnpm link -g {str_react_libs} {str_babel_libs} {str_webpack_libs} {str_loaders_libs}')
 
-webbrowser.open('http://localhost:8080')
-os.system(f'{pkg_mgr} run start')
+
+
+# seeking frontend dir
+Popen(['start', 'cmd', '/k', 'py manage.py runserver'], cwd='..', shell=True)
+# Popen(['start', 'cmd', '/k', f'{pkg_mgr} run dev'], shell=True)
+
+# webbrowser.open('http://localhost:8080')
+webbrowser.open('http://127.0.0.1:8080/foo')
+
+os.system('cls')
+os.system(f'{pkg_mgr} run dev')
+

@@ -1,5 +1,5 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const webpack = require("webpack");
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
       },
       {
         test: /\.s?css$/i,
-        use: ["style-loader", "css-loader", "sass-loader"]
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.(png|svg|jpg|gif|svg)$/i,
@@ -41,8 +41,8 @@ module.exports = {
     }),
     // This has effect on React Library Size ( no change observed )
     new webpack.DefinePlugin({
-      "process.env": {
-        "process.env.NODE_ENV": JSON.stringify("production"),
+      'process.env': {
+        'process.env.NODE_ENV': JSON.stringify('production'),
       },
     }),
   ],
